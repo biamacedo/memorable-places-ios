@@ -38,19 +38,6 @@ class TableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
-    
-    func saveStorage() {
-        let userStorage = NSUserDefaults.standardUserDefaults()
-        userStorage.setObject(places, forKey: "places")
-    }
-    
-    func retriveStorage() {
-        let userStorage = NSUserDefaults.standardUserDefaults()
-        
-        if userStorage.objectForKey("places") != nil {
-            places = userStorage.objectForKey("places") as! [Dictionary<String,String>]
-        }
-    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -88,10 +75,14 @@ class TableViewController: UITableViewController {
         return indexPath
     }
     
+    // When opening table view, reloads the places saved on array
     override func viewWillAppear(animated: Bool) {
         tableView.reloadData()
     }
     
+    // MARK: - Table view segues
+    
+    // Segue to see map
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         
         if segue.identifier == "newPlace" {
@@ -99,6 +90,10 @@ class TableViewController: UITableViewController {
         }
     }
     
+    
+    // MARK: - Table view options
+    
+    // Delete Option
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         
         if editingStyle == UITableViewCellEditingStyle.Delete {
@@ -110,6 +105,21 @@ class TableViewController: UITableViewController {
             tableView.reloadData()
             
             
+        }
+    }
+    
+    // MARK: - Table view storage
+    
+    func saveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        userStorage.setObject(places, forKey: "places")
+    }
+    
+    func retriveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        
+        if userStorage.objectForKey("places") != nil {
+            places = userStorage.objectForKey("places") as! [Dictionary<String,String>]
         }
     }
     

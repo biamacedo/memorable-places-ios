@@ -15,6 +15,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     @IBOutlet weak var map: MKMapView!
     
+    // MARK: View functions
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +24,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyBest
         
+        // If user clicked on new place button, get location and put it on map
+        // else user clicked on a saved place so go there on map
         if activePlace == -1 {
             
             manager.requestWhenInUseAuthorization()
@@ -57,6 +61,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     }
     
+    
+    // Adding new pin when long press
     func action(gestureRecognizer:UIGestureRecognizer){
         
         // Getting only the first indication of a particular long press
@@ -112,11 +118,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
     }
     
-    func saveStorage() {
-        let userStorage = NSUserDefaults.standardUserDefaults()
-        userStorage.setObject(places, forKey: "places")
-    }
-    
+    // Updates when new location is found
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         
         let userLocation:CLLocation = locations[0]
@@ -135,6 +137,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.map.setRegion(region, animated: true)
         
+    }
+    
+    // MARK: Storage Options
+    
+    func saveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        userStorage.setObject(places, forKey: "places")
     }
 
     override func didReceiveMemoryWarning() {
