@@ -17,12 +17,16 @@ class TableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        retriveStorage()
+        
         if places.count == 1 {
             
             places.removeAtIndex(0)
             
             places.append(["name":"Eiffel Tower","lat":"48.8582", "lon": "2.2945"])
             print(places)
+            
+            saveStorage()
             
         }
         
@@ -33,6 +37,19 @@ class TableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    }
+    
+    func saveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        userStorage.setObject(places, forKey: "places")
+    }
+    
+    func retriveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        
+        if userStorage.objectForKey("places") != nil {
+            places = userStorage.objectForKey("places") as! [Dictionary<String,String>]
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -79,6 +96,20 @@ class TableViewController: UITableViewController {
         
         if segue.identifier == "newPlace" {
             activePlace = -1
+        }
+    }
+    
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if editingStyle == UITableViewCellEditingStyle.Delete {
+            
+            places.removeAtIndex(indexPath.row)
+            
+            saveStorage()
+            
+            tableView.reloadData()
+            
+            
         }
     }
     

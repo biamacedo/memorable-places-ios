@@ -98,6 +98,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
                 places.append(["name":title,"lat":"\(newCoordinate.latitude)","lon":"\(newCoordinate.longitude)"])
                 print(places)
                 
+                self.saveStorage()
+                
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = newCoordinate
                 annotation.title = title
@@ -108,6 +110,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             
         }
         
+    }
+    
+    func saveStorage() {
+        let userStorage = NSUserDefaults.standardUserDefaults()
+        userStorage.setObject(places, forKey: "places")
     }
     
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
